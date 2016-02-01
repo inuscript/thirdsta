@@ -2,31 +2,42 @@ import axios from "axios"
 import cheerio from "cheerio"
 
 class WebstaRequest{
+  get baseUrl(){
+    return "http://websta.me"
+  }
   constructor(user){
     this.user = user
   }
   userPageUrl(){
-    return `http://websta.me/n/${this.user}`
+    return `${this.baseUrl}/n/${this.user}`
   }
   request(){
-    return axios(this.userPageUrl()).then(res => res.data)
+    let url = this.userPageUrl()
+    return axios(url).then(res => res.data).then(body => {
+      return new WebstaParser(body, this.baseUrl)
+    })
   }
 }
 
 class WebstaParser{
-  constructor(body){
+  constructor(body, baseUrl){
     this.body = body
+    this.baseUrl = baseUrl
     this.$ = cheerio.load(this.body)
   }
   photos(){
     return this.$(".photoeach").map((i, el) =>{
-      let p = new WebstaPhoto(el)
-      console.log(p.dump())
-      return p
-    })
+      return new WebstaPhoto(el)
+    }).get()
+  }
+  next(){
+    let next = this.$("a[rel='next']").attr("href")
+    return `${this.baseUrl}${next}`
   }
   parse(){
-    this.photos()
+    return this.photos().map((p) => {
+      return p.get()
+    })
   }
 }
 
@@ -49,7 +60,7 @@ class WebstaPhoto{
       return this.$(el).text().replace(/^#/, "")
     }).get()
   }
-  dump(){
+  get(){
     return {
       id: this.id,
       like: this.like,
@@ -59,9 +70,9 @@ class WebstaPhoto{
   }
 }
 let w = new WebstaRequest("sqlatchdog")
-w.request().then(body => {
-  let parser = new WebstaParser(body)
+w.request().then(parser => {
   parser.parse()
+  console.log(parser.next())
 }).catch(e => {
   console.error(e)
 })
