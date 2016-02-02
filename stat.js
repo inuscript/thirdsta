@@ -1,4 +1,5 @@
 import sample from "./sample"
+import Bandit from "ucb"
 
 function likes(media){
   return media.map( (media) => {
@@ -17,8 +18,7 @@ function tagLikes(media){
   })
   return tags
 }
-
-function start(){
+function normalized(){
   let max = Math.max.apply(null, likes(sample))
   let min = Math.min.apply(null, likes(sample))
   let tl = tagLikes(sample)
@@ -28,7 +28,22 @@ function start(){
       counts: counts.map( (c) => (c - min) / (max - min)),
     }
   })
-  console.log(cm)
+  return cm
+}
+
+function start(){
+  let n = normalized()
+  let b = new Bandit({
+    arms: 4
+  })
+  b.reward(2, 0.5)
+  b.reward(3, 0.2)
+  b.reward(0, 0.1)
+  b.reward(1, 0.9)
+  b.reward(1, 0.2)
+  b.select().then( (r) => {
+    console.log(r)
+  })
 }
 
 start()
