@@ -19,15 +19,15 @@ class WebstaRequest{
   }
 }
 
-class WebstaParser{
+class WebstaMedia{
   constructor(body, baseUrl){
     this.body = body
     this.baseUrl = baseUrl
     this.$ = cheerio.load(this.body)
   }
-  photos(){
+  medias(){
     return this.$(".photoeach").map((i, el) =>{
-      return new WebstaPhoto(el)
+      return new WebstaMedia(el)
     }).get()
   }
   next(){
@@ -36,13 +36,13 @@ class WebstaParser{
     return 
   }
   parse(){
-    return this.photos().map((p) => {
+    return this.medias().map((p) => {
       return p.get()
     })
   }
 }
 
-class WebstaPhoto{
+class WebstaMedia{
   constructor(dom){
     this.$ = cheerio.load(dom)
   }
