@@ -1,4 +1,4 @@
-export default const = [{
+export default [{
   id: '1175391328010401973_1453092205',
   like: 115,
   comment: 2,

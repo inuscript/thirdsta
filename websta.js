@@ -19,13 +19,13 @@ class WebstaRequest{
   }
 }
 
-class WebstaMedia{
+class WebstaParser{
   constructor(body, baseUrl){
     this.body = body
     this.baseUrl = baseUrl
     this.$ = cheerio.load(this.body)
   }
-  medias(){
+  media(){
     return this.$(".photoeach").map((i, el) =>{
       return new WebstaMedia(el)
     }).get()
@@ -36,7 +36,7 @@ class WebstaMedia{
     return 
   }
   parse(){
-    return this.medias().map((p) => {
+    return this.media().map((p) => {
       return p.get()
     })
   }
@@ -61,12 +61,20 @@ class WebstaMedia{
       return this.$(el).text().replace(/^#/, "")
     }).get()
   }
+  get filter(){
+    return this.$(".secondinfo .filter")
+  }
+  get time(){
+    let before = this.$(".firstinfo .time")
+    // TODO
+  }
   get(){
     return {
       id: this.id,
       like: this.like,
       comment: this.comment,
       tags: this.tags
+      filter: this.filter
     }
   }
 }

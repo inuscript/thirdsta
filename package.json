@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "bn": "babel-node",
     "start": "babel-node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.9.1",
-    "cheerio": "^0.20.0"
+    "cheerio": "^0.20.0",
+    "ucb": "^0.2.1"
   },
   "babel": {
     "presets": [
