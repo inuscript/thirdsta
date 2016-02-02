@@ -5,11 +5,15 @@ class WebstaRequest{
   get baseUrl(){
     return "http://websta.me"
   }
-  getUserPageUrl(){
-    return `${this.baseUrl}/n/${this.user}`
+  getUserPageUrl(user){
+    return `${this.baseUrl}/n/${user}`
   }
   request(url){
-    return axios(url).then(res => res.data).then(body => {
+    let p = axios(url)
+    return this.toParser(p)
+  }
+  toParser(p){
+    return p.then(res => res.data).then(body => {
       return new WebstaParser(body, this.baseUrl)
     })
   }
@@ -28,7 +32,8 @@ class WebstaParser{
   }
   next(){
     let next = this.$("a[rel='next']").attr("href")
-    return `${this.baseUrl}${next}`
+    let url = `${this.baseUrl}${next}`
+    return 
   }
   parse(){
     return this.photos().map((p) => {
@@ -67,14 +72,15 @@ class WebstaPhoto{
 }
 
 let b = new WebstaRequest()
-
-b.request( b.getUserPageUrl() ).then(parser => {
+let userName = "sqlatchdog"
+console.log(b.getUserPageUrl(userName))
+b.request( b.getUserPageUrl(userName) ).then(parser => {
   return {
     data: parser.parse(),
     next: parser.next()
   }
 }).then( item => {
-
+  console.log(item.data)
 }).catch(e => {
   console.error(e)
 })
