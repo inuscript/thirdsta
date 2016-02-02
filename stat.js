@@ -57,9 +57,7 @@ function start(){
       return g[arm]
     })
   })
-  Promise.all(promises).then(tags => {
-    console.log(tags)
-  })
+  return Promise.all(promises)
 }
 
 start()
