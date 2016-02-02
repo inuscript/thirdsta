@@ -5,14 +5,10 @@ class WebstaRequest{
   get baseUrl(){
     return "http://websta.me"
   }
-  constructor(user){
-    this.user = user
-  }
-  userPageUrl(){
+  getUserPageUrl(){
     return `${this.baseUrl}/n/${this.user}`
   }
-  request(){
-    let url = this.userPageUrl()
+  request(url){
     return axios(url).then(res => res.data).then(body => {
       return new WebstaParser(body, this.baseUrl)
     })
@@ -69,10 +65,16 @@ class WebstaPhoto{
     }
   }
 }
-let w = new WebstaRequest("sqlatchdog")
-w.request().then(parser => {
-  parser.parse()
-  console.log(parser.next())
+
+let b = new WebstaRequest()
+
+b.request( b.getUserPageUrl() ).then(parser => {
+  return {
+    data: parser.parse(),
+    next: parser.next()
+  }
+}).then( item => {
+
 }).catch(e => {
   console.error(e)
 })
