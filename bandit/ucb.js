@@ -36,6 +36,7 @@ export default class MultiBandit{
       }, 0)
       let accum = 0;
       let r = random(0, 1, true);
+      console.log(values)
       values.forEach( (v, i) => {
         if(arm > -1){
           return
