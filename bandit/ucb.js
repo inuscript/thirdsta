@@ -25,29 +25,17 @@ export default class MultiBandit{
     }, 0)
   }
   select(num){
-    return new Promise((resolve, reject) => {
-      let arm = -1
-      let temp = this.tau || 1 / Math.log(this.n + 1 + this.gamma);
-      let values = this.values.map( (v) => {
-        return Math.exp(v / temp)
-      })
-      let z = values.reduce( (sum, v) => {
-        return sum + v
-      }, 0)
-      let accum = 0;
-      let r = random(0, 1, true);
-      console.log(values)
-      values.forEach( (v, i) => {
-        if(arm > -1){
-          return
-        }
-        accum += v;
-        if(accum > r){
-          arm = i
-          return false
-        }
-      })
-      resolve(arm)
+    let top = 2 * Math.log(this.n)
+    let check = this.counts.indexOf(0);
+    if (check !== -1) {
+      return check
+    }
+
+    let valuesUCB = this.counts.map( (ct, i ) => {
+      return this.values[i] + Math.sqrt(top / ct)
     })
+
+    let arm = valuesUCB.indexOf(Math.max.apply(null, valuesUCB))
+    return arm
   }
 }

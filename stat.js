@@ -47,22 +47,17 @@ function start(){
   let n = normalized().map
   let sp = Math.ceil(masterTags.length / 25)
   let groups = [masterTags] // chunk( shuffle(masterTags), sp)
-  let promises = groups.map( (g) => {
-    let b = new Bandit({ arms: g.length })
-    // let b = new MultiBandit({ arms: g.length })
-    g.forEach( (tag, i) => {
-      n[tag].forEach( (countReward) => {
-        b.reward(i, countReward)
-      })
-    })
-    // console.log(b.serialize())
-    return b.select().then( (arm) => {
-      return g[arm]
+  // let b = new Bandit({ arms: g.length })
+  let b = new MultiBandit({ arms: masterTags.length })
+  masterTags.forEach( (tag, i) => {
+    n[tag].forEach( (countReward) => {
+      b.reward(i, countReward)
     })
   })
-  return Promise.all(promises)
+  // console.log(b.serialize())
+  let arm = b.select(10)
+  let result = masterTags[arm]
+  console.log(result)
 }
 
-start().then( t => {
-  console.log(t)
-})
+start()
