@@ -1,7 +1,7 @@
 import axios from "axios"
 import cheerio from "cheerio"
 
-class WebstaRequest{
+export class WebstaRequest{
   get baseUrl(){
     return "http://websta.me"
   }
@@ -10,9 +10,13 @@ class WebstaRequest{
   }
   request(url){
     let p = axios(url)
-    return this.toParser(p)
+    return this._toParser(p)
   }
-  toParser(p){
+  start(userName){
+    let url = this.getUserPageUrl(userName)
+    return this._request(url)
+  }
+  _toParser(p){
     return p.then(res => res.data).then(body => {
       return new WebstaParser(body, this.baseUrl)
     })
@@ -33,7 +37,7 @@ class WebstaParser{
   next(){
     let next = this.$("a[rel='next']").attr("href")
     let url = `${this.baseUrl}${next}`
-    return 
+    return new WebstaRequest().requet(url)
   }
   parse(){
     return this.media().map((p) => {
@@ -79,16 +83,3 @@ class WebstaMedia{
   }
 }
 
-let b = new WebstaRequest()
-let userName = "sqlatchdog"
-console.log(b.getUserPageUrl(userName))
-b.request( b.getUserPageUrl(userName) ).then(parser => {
-  return {
-    data: parser.parse(),
-    next: parser.next()
-  }
-}).then( item => {
-  console.log(item.data)
-}).catch(e => {
-  console.error(e)
-})

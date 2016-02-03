@@ -15,6 +15,7 @@
     "axios": "^0.9.1",
     "cheerio": "^0.20.0",
     "lodash.chunk": "^4.0.0",
+    "lodash.random": "^3.1.1",
     "mathjs": "^2.6.0",
     "shuffle-array": "^0.1.2",
     "ucb": "^0.2.1"

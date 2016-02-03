@@ -1,5 +1,6 @@
 import sample, { masterTags } from "./sample"
 import Bandit from "ucb"
+import MultiBandit from "./bandit/ucb"
 import groupify from "groupify"
 import shuffle from "shuffle-array"
 import chunk from "lodash.chunk"
@@ -45,9 +46,10 @@ function normalized(){
 function start(){
   let n = normalized().map
   let sp = Math.ceil(masterTags.length / 25)
-  let groups = chunk( shuffle(masterTags), sp)
+  let groups = [masterTags] // chunk( shuffle(masterTags), sp)
   let promises = groups.map( (g) => {
-    let b = new Bandit({ arms: g.length })
+    // let b = new Bandit({ arms: g.length })
+    let b = new MultiBandit({ arms: g.length })
     g.forEach( (tag, i) => {
       n[tag].forEach( (countReward) => {
         b.reward(i, countReward)
@@ -60,4 +62,6 @@ function start(){
   return Promise.all(promises)
 }
 
-start()
+start().then( t => {
+  console.log(t)
+})
