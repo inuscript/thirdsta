@@ -1,13 +1,20 @@
 import random from "lodash.random"
 
-const zeroPad = (len) => {
-  return Array.apply(null, new Array(len)).map(Number.prototype.valueOf,0);
+class Arm{
+  constructor({label}){
+    this.label = label
+    this.rewards = []
+  }
+  reward(r){
+    this.rewards.push()
+  }
 }
 export default class MultiBandit{
   constructor({arms}){
-    this.arms = arms
-    this.rewards = Array(arms).fill(0).map( () => [] )
-
+    this.arms = arms.length
+    this.rewards = arms.map( (label) => {
+      return []
+    })
   }
   reward(arm, reward){
     this.rewards[arm].push(reward)    
@@ -43,6 +50,13 @@ export default class MultiBandit{
 
     let valuesUCB = this.counts.map( (ct, i ) => {
       return this.values[i] + Math.sqrt(top / ct)
+    })
+    let sorted = valuesUCB.concat().sort().reverse()
+    console.log(sorted)
+    return sorted.map( (val) => {
+      // console.log(val)
+      let idx = valuesUCB.indexOf(val)
+      return idx
     })
     let arm = valuesUCB.indexOf(Math.max.apply(null, valuesUCB))
     return arm

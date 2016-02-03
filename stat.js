@@ -48,7 +48,8 @@ function start(){
   let sp = Math.ceil(masterTags.length / 25)
   let groups = [masterTags] // chunk( shuffle(masterTags), sp)
   // let b = new Bandit({ arms: g.length })
-  let b = new MultiBandit({ arms: masterTags.length })
+  // let b = new MultiBandit({ arms: masterTags.length })
+  let b = new MultiBandit({ arms: masterTags })
   masterTags.forEach( (tag, i) => {
     n[tag].forEach( (countReward) => {
       b.reward(i, countReward)
@@ -57,6 +58,10 @@ function start(){
   // console.log(b.values)
   // console.log(b.serialize())
   let arm = b.select(10)
+  let r = arm.map( i => {
+    return "#" + masterTags[i]
+  })
+  console.log(r.splice(0, 25).join(" "))
   let result = masterTags[arm]
   // console.log(result)
 }
