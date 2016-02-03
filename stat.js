@@ -54,6 +54,7 @@ function start(){
       b.reward(i, countReward)
     })
   })
+  console.log(b.values)
   // console.log(b.serialize())
   let arm = b.select(10)
   let result = masterTags[arm]
