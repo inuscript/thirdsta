@@ -6,3 +6,5 @@
 - http://tofo.me/MultiView/GetUserMediaRecent?userID=1453092205&max
   - jsonデータアリ
 - http://www.intagme.com/sqlatchdog/
+
+http://www.cs.mcgill.ca/~vkules/bandits.pdf

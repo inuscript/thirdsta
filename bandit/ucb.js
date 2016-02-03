@@ -6,21 +6,15 @@ const zeroPad = (len) => {
 export default class MultiBandit{
   constructor({arms}){
     this.arms = arms
-    this.rewards = new Array(arms)
+    this.rewards = Array(arms).fill(0).map( () => [] )
 
-    this.tau = undefined
-    this.gamma = 1e-7
   }
   reward(arm, reward){
-    let rs = this.rewards[arm] ? this.rewards[arm] : []
-    rs.push(reward)
-    this.rewards[arm] = rs
+    this.rewards[arm].push(reward)    
   }
-  get values(){
+  get values(){ // expectation
     return this.rewards.map( (r) => {
-      let sum = r.reduce( (sum, val) => {
-        return sum + val
-      }, 0)
+      let sum = r.reduce( (sum, val) => sum + val, 0)
       return sum / r.length
     })
   }
@@ -34,6 +28,12 @@ export default class MultiBandit{
       return sum + ct
     }, 0)
   }
+  calcUCB(arm){
+    let r = this.rewards[arm]
+    if(r.length == 0){
+      return 
+    }
+  }
   select(num){
     let top = 2 * Math.log(this.n)
     let check = this.counts.indexOf(0);
@@ -42,14 +42,8 @@ export default class MultiBandit{
     }
 
     let valuesUCB = this.counts.map( (ct, i ) => {
-      // return this.values[i] + Math.sqrt(top / ct)
-      return this.values[i] + Math.sqrt(top) / ct
+      return this.values[i] + Math.sqrt(top / ct)
     })
-    // let valuesUCB2 = this.counts.map( (ct, i ) => {
-    //   return this.values[i] + Math.sqrt(top / ct)
-    //   // return this.values[i] + Math.sqrt(top) / ct
-    // })
-    console.log(valuesUCB)
     let arm = valuesUCB.indexOf(Math.max.apply(null, valuesUCB))
     return arm
   }
