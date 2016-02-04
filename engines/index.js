@@ -4,9 +4,10 @@ import fs from "fs"
 
 const reducePage = (results, page, depth) =>{
   return page.request().then( parser => {
+    console.log(depth)
     let nextPage = parser.next()
     let nextResults = results.concat(parser.parse())
-    if(nextPage && depth < 3){
+    if(nextPage && depth < 30){
       return reducePage(nextResults, nextPage, depth + 1)
     }
     return nextResults

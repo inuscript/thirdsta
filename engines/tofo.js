@@ -35,10 +35,12 @@ export class TofoParser{
     return this.pagination.next_max_id.split("_")[1]
   }
   next(){
+    if(!this.pagination.next_url){
+      return
+    }
     let params = qs.parse(this.pagination.next_url)
     params.userId = this.userId
     let url = generateUrl(params)
-    console.log(url)
     return new TofoPage(url)
   }
   parse(){
