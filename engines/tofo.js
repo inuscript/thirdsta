@@ -59,6 +59,7 @@ export const parseMedia = (m) => {
     comment: m.comments.count,
     filter: m.filter,
     time: time,
-    tags: m.tags
+    tags: m.tags,
+    link: m.link
   }
 }
