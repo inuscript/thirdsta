@@ -8,8 +8,8 @@ export class WebstaRequest{
     let url = `${BASE_URL}/n/${user}`
     return new WebstaPage(url)
   }
-  start(userName){
-    return this.getUserPageUrl(userName).request()
+  startPage(userName){
+    return this.getUserPageUrl(userName)
   }
 }
 
@@ -49,9 +49,13 @@ class WebstaParser{
     return new WebstaPage(url)
   }
   parse(){
-    return this.media().map((p) => {
-      return p.get()
-    })
+    // return new Promise( (resolve, reject) => {
+      let result = this.media().map((p) => {
+        return p.get()
+      })
+      return result
+    //   resolve(result)
+    // })
   }
 }
 
@@ -75,7 +79,7 @@ class WebstaMedia{
     }).get()
   }
   get filter(){
-    return this.$(".secondinfo .filter")
+    return this.$(".secondinfo .filter").text()
   }
   get time(){
     let before = this.$(".firstinfo .time")
