@@ -14,20 +14,15 @@ class WebstaPage{
   }  
   request(){
     let p = axios(this.url)
-    return this._toParser(p)
-  }
-  _toParser(p){
     return p.then(res => res.data).then(body => {
-      return new WebstaParser(body, this.baseUrl)
+      return new WebstaParser(body)
     })
   }
 }
 
-
 class WebstaParser{
-  constructor(body, baseUrl){
+  constructor(body){
     this.body = body
-    this.baseUrl = baseUrl
     this.$ = cheerio.load(this.body)
   }
   media(){
@@ -44,13 +39,10 @@ class WebstaParser{
     return new WebstaPage(url)
   }
   parse(){
-    // return new Promise( (resolve, reject) => {
-      let result = this.media().map((p) => {
-        return p.get()
-      })
-      return result
-    //   resolve(result)
-    // })
+    let result = this.media().map((p) => {
+      return p.get()
+    })
+    return result
   }
 }
 
