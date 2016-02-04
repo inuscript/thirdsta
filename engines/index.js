@@ -1,18 +1,20 @@
-const crawl = (req, userName) =>{
-  let url = this.getUserPageUrl(userName)
-  req.request( url ).then( parser => {
+import { WebstaRequest } from "./websta"
+const crawl = (req, userName, depth = 3) =>{
+  let results = []
+  return req.start( userName ).then( parser => {
     parser.parse()
     return parser.next()
   })
 }
 
 let userName = "sqlatchdog"
-let e = new Engine(userName)
+let userId = "1453092205"
 let req = new WebstaRequest()
+// let req = new TofoRequest()
 
-e.get(req)
+crawl(req, userName)
 .then( item => {
-  console.log(item.data)
+  // console.log(item.data)
 }).catch(e => {
   console.error(e)
 })

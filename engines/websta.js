@@ -1,20 +1,25 @@
 import axios from "axios"
 import cheerio from "cheerio"
 
+const BASE_URL = "http://websta.me"
+
 export class WebstaRequest{
-  get baseUrl(){
-    return "http://websta.me"
-  }
   getUserPageUrl(user){
-    return `${this.baseUrl}/n/${user}`
-  }
-  request(url){
-    let p = axios(url)
-    return this._toParser(p)
+    let url = `${BASE_URL}/n/${user}`
+    return new WebstaPage(url)
   }
   start(userName){
-    let url = this.getUserPageUrl(userName)
-    return this._request(url)
+    return this.getUserPageUrl(userName).request()
+  }
+}
+
+class WebstaPage{
+  constructor(url){
+    this.url = url
+  }  
+  request(){
+    let p = axios(this.url)
+    return this._toParser(p)
   }
   _toParser(p){
     return p.then(res => res.data).then(body => {
@@ -22,6 +27,7 @@ export class WebstaRequest{
     })
   }
 }
+
 
 class WebstaParser{
   constructor(body, baseUrl){
@@ -36,8 +42,11 @@ class WebstaParser{
   }
   next(){
     let next = this.$("a[rel='next']").attr("href")
-    let url = `${this.baseUrl}${next}`
-    return new WebstaRequest().requet(url)
+    if(!next){
+      return
+    }
+    let url = `${BASE_URL}${next}`
+    return new WebstaPage(url)
   }
   parse(){
     return this.media().map((p) => {
@@ -77,7 +86,7 @@ class WebstaMedia{
       id: this.id,
       like: this.like,
       comment: this.comment,
-      tags: this.tags
+      tags: this.tags,
       filter: this.filter
     }
   }
