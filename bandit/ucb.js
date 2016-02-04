@@ -45,7 +45,7 @@ export default class MultiBandit{
   get n(){
     return this.arms.reduce( (sum, arm) =>  sum + arm.count, 0)
   }
-  select(num){
+  calc(){
     let valuesUCB = this.arms.map( (arm) => arm.calcUCB(this.n) )
     let sorted = valuesUCB.concat().sort().reverse()
 

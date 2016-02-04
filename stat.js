@@ -49,7 +49,7 @@ function start(){
   n.forEach( ({tag, count}) => {
     count.forEach( c => b.reward(tag, c))
   })
-  let tags = b.select()
+  let tags = b.calc()
   let r = tags.map( tag => `#${tag}`)
   console.log(r.splice(0, 25).join(" "))
 }
