@@ -3,14 +3,9 @@ import cheerio from "cheerio"
 
 const BASE_URL = "http://websta.me"
 
-export class WebstaRequest{
-  getUserPageUrl(user){
-    let url = `${BASE_URL}/n/${user}`
-    return new WebstaPage(url)
-  }
-  startPage(userName){
-    return this.getUserPageUrl(userName)
-  }
+export default function(user){
+  let url = `${BASE_URL}/n/${user}`
+  return new WebstaPage(url)
 }
 
 class WebstaPage{
