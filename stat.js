@@ -1,6 +1,5 @@
 import sample, { masterTags } from "./sample"
-import Bandit from "ucb"
-import MultiBandit from "./bandit/ucb"
+import { ucb as MultiBandit } from "@inuscript/to-zok"
 import groupify from "groupify"
 import shuffle from "shuffle-array"
 import chunk from "lodash.chunk"
@@ -45,7 +44,7 @@ function normalized(){
 
 function start(){
   let n = normalized().k
-  let b = new MultiBandit({ arms: masterTags })
+  let b = new MultiBandit( masterTags )
   n.forEach( ({tag, count}) => {
     count.forEach( c => b.reward(tag, c))
   })
