@@ -1,5 +1,6 @@
-import sample, { masterTags } from "./sample"
-import { ucb as MultiBandit } from "@inuscript/to-zok"
+import _sample, { masterTags } from "./sample"
+import sample from "./foo"
+import { UCBBandit as MultiBandit } from "@inuscript/to-zok"
 import groupify from "groupify"
 import shuffle from "shuffle-array"
 import chunk from "lodash.chunk"
@@ -48,7 +49,8 @@ function start(){
   n.forEach( ({tag, count}) => {
     count.forEach( c => b.reward(tag, c))
   })
-  let tags = b.calc()
+  let tags = b.select()
+  console.log( masterTags )
   let r = tags.map( tag => `#${tag}`)
   console.log(r.splice(0, 25).join(" "))
 }

@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@inuscript/to-zok": "^0.1.0",
+    "@inuscript/to-zok": "^0.2.0",
     "axios": "^0.9.1",
     "cheerio": "^0.20.0",
     "firebase": "^2.4.0",
