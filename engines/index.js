@@ -7,7 +7,7 @@ const reducePage = (results, page, depth) =>{
     console.log(depth)
     let nextPage = parser.next()
     let nextResults = results.concat(parser.parse())
-    if(nextPage && depth < 30){
+    if(nextPage && depth < 100){
       return reducePage(nextResults, nextPage, depth + 1)
     }
     return nextResults
@@ -24,7 +24,6 @@ const crawl = ( depth = 10 ) =>{
 }
 
 const start = () => {
-
   crawl().then( item => {
     let json = JSON.stringify(item, null, 2)
     fs.writeFileSync("./foo.json", json)
