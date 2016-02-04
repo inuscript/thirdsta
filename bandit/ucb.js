@@ -6,59 +6,55 @@ class Arm{
     this.rewards = []
   }
   reward(r){
-    this.rewards.push()
+    this.rewards.push(r)
+  }
+  get count(){
+    return this.rewards.length
+  }
+  get sum(){
+    return this.rewards.reduce( (sum, val ) => sum + val, 0)
+  }
+  get expectation(){
+    return this.sum / this.count
+  }
+  calcUCB(n){
+    if(this.count === 0){
+      return Number.MAX_VALUE
+    }
+    return this.expectation + Math.sqrt(2 * Math.log(n) / this.count)
   }
 }
+
 export default class MultiBandit{
   constructor({arms}){
-    this.arms = arms.length
-    this.rewards = arms.map( (label) => {
-      return []
+    // this.arms = arms.length
+    this.arms = arms.map( (label) => {
+      return new Arm({label})
     })
   }
-  reward(arm, reward){
-    this.rewards[arm].push(reward)    
+  searchArm(label){
+    return this.arms.find( (arm) => arm.label === label)
   }
-  get values(){ // expectation
-    return this.rewards.map( (r) => {
-      let sum = r.reduce( (sum, val) => sum + val, 0)
-      return sum / r.length
-    })
-  }
-  get counts(){
-    return this.rewards.map( (r) => {
-      return r.length
-    })
+  reward(label, reward){
+    let arm = this.searchArm(label)
+    if(!arm){
+      return // ignore
+    }
+    arm.reward(reward)    
   }
   get n(){
-    return this.counts.reduce( (sum, ct) => {
-      return sum + ct
-    }, 0)
-  }
-  calcUCB(arm){
-    let r = this.rewards[arm]
-    if(r.length == 0){
-      return 
-    }
+    return this.arms.reduce( (sum, arm) =>  sum + arm.count, 0)
   }
   select(num){
-    let top = 2 * Math.log(this.n)
-    let check = this.counts.indexOf(0);
-    if (check !== -1) {
-      return check
-    }
-
-    let valuesUCB = this.counts.map( (ct, i ) => {
-      return this.values[i] + Math.sqrt(top / ct)
-    })
+    let valuesUCB = this.arms.map( (arm) => arm.calcUCB(this.n) )
     let sorted = valuesUCB.concat().sort().reverse()
-    console.log(sorted)
-    return sorted.map( (val) => {
-      // console.log(val)
+
+    let keys = sorted.map( (val) => {
       let idx = valuesUCB.indexOf(val)
       return idx
     })
-    let arm = valuesUCB.indexOf(Math.max.apply(null, valuesUCB))
-    return arm
+    return keys.map( (k) => {
+      return this.arms[k].label
+    })
   }
 }
