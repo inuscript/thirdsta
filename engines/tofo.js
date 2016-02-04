@@ -26,7 +26,7 @@ class TofoPage{
   }
 }
 
-class TofoParser{
+export class TofoParser{
   constructor( {pagination, data}){
     this.pagination = pagination
     this.data = data
@@ -43,16 +43,20 @@ class TofoParser{
   }
   parse(){
     return this.data.map( (m) => {
-      let timeParsed = m.created_time.match(/Date\(([0-9])\)/)
-      console.log(m.created_time, timeParsed)
-      return {
-        id: m.id,
-        like: m.likes.count,
-        comment: m.comments.count,
-        filter: m.filter,
-        time: timeParsed,
-        tags: m.tags
-      }
+      return parseMedia(m)
     })
+  }
+}
+
+export const parseMedia = (m) => {
+  let timeParsed = m.created_time.match(/[0-9]+/)
+  let time = parseInt(timeParsed[0])
+  return {
+    id: m.id,
+    like: m.likes.count,
+    comment: m.comments.count,
+    filter: m.filter,
+    time: time,
+    tags: m.tags
   }
 }
