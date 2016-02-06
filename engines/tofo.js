@@ -3,14 +3,14 @@ import qs from "querystring"
 
 const BASE_URL = "http://tofo.me"
 const API_PATH = "MultiView/GetUserMediaRecent"
-
+const COUNT = 24
 const generateUrl = (params) => {
   let prm = qs.stringify(params)
   return `${BASE_URL}/${API_PATH}?${prm}`
 
 }
 export default function(userId){
-  let url = generateUrl({count: 24 , userId: userId})
+  let url = generateUrl({count: COUNT , userId: userId})
   return new TofoPage(url)
 }
 
@@ -40,7 +40,7 @@ export class TofoParser{
     }
     let params = {
       next_max_id: this.pagination.next_max_id,
-      count: 24 , 
+      count: COUNT , 
       userId: this.userId
     }
     let url = generateUrl(params)
