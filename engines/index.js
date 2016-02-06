@@ -10,14 +10,15 @@ const store = (media) => {
   })
 }
 
-const reducePage = (results, page, depth) =>{
+const reducePage = (results, page, maxDepth) =>{
   return page.request().then( parser => {
     let nextPage = parser.next()
+    console.log(nextPage.url)
     let media = parser.parse()
     let stores = store(media)
 
     let nextResults = results.concat(media)
-    if(nextPage && depth < 100){
+    if(nextPage && depth < maxDepth){
       return reducePage(nextResults, nextPage, depth + 1)
     }
     return Promise.all(stores).then( (results) => {
@@ -32,11 +33,11 @@ const crawl = ( depth = 10 ) =>{
 
   // let page = websta( userName )
   let page = tofo( userId )
-  return reducePage([], page, 0)
+  return reducePage([], page, 0, depth)
 }
 
-export default function() {
-  crawl().then( item => {
+export default function(pages) {
+  crawl(pages).then( item => {
     process.exit(0)
   }).catch(e => {
     console.error(e.stack)

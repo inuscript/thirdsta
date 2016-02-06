@@ -1,3 +1,4 @@
 import start from "./engines/index"
 
-start()
+start(3)
+// start(100) // 全取得モード
