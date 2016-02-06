@@ -10,7 +10,7 @@ const store = (media) => {
   })
 }
 
-const reducePage = (results, page, maxDepth) =>{
+const reducePage = (results, page, depth, maxDepth) =>{
   return page.request().then( parser => {
     let nextPage = parser.next()
     console.log(nextPage.url)
@@ -19,7 +19,7 @@ const reducePage = (results, page, maxDepth) =>{
 
     let nextResults = results.concat(media)
     if(nextPage && depth < maxDepth){
-      return reducePage(nextResults, nextPage, depth + 1)
+      return reducePage(nextResults, nextPage, depth + 1, maxDepth)
     }
     return Promise.all(stores).then( (results) => {
       return nextResults
