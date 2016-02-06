@@ -11,11 +11,12 @@ export default class {
   }
   write(data){
     return this.auth().then( (auth) => {
-      let refPath = `media/${data.id}`
-      let itemRef = this.ref.child(refPath)
-      itemRef.once("value", (snap) => {
-        let newItem = Object.assign({}, item, snap.val())
-        itemRef.set(newItem)
+      let mediaRef = this.ref.child("media")
+      let itemRef = mediaRef.child(data.id)
+      return itemRef.once("value", (snap) => {
+        let newItem = Object.assign({}, data, snap.val())
+        // console.log(itemRef.toString())
+        return itemRef.set(newItem)
       })
     })
   }

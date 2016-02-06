@@ -10,7 +10,7 @@ const generateUrl = (params) => {
 
 }
 export default function(userId){
-  let url = generateUrl({count: 20 , userId: userId})
+  let url = generateUrl({count: 24 , userId: userId})
   return new TofoPage(url)
 }
 
@@ -38,8 +38,11 @@ export class TofoParser{
     if(!this.pagination.next_url){
       return
     }
-    let params = qs.parse(this.pagination.next_url)
-    params.userId = this.userId
+    let params = {
+      next_max_id: this.pagination.next_max_id,
+      count: 24 , 
+      userId: this.userId
+    }
     let url = generateUrl(params)
     return new TofoPage(url)
   }
