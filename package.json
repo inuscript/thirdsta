@@ -12,17 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@inuscript/to-zok": "^0.2.0",
     "axios": "^0.9.1",
-    "babel-polyfill": "^6.3.14",
     "cheerio": "^0.20.0",
     "firebase": "^2.4.0",
-    "lodash.chunk": "^4.0.0",
-    "lodash.random": "^3.1.1",
-    "mathjs": "^2.6.0",
     "mocha": "^2.4.5",
-    "shuffle-array": "^0.1.2",
-    "ucb": "^0.2.1"
   },
   "babel": {
     "presets": [
