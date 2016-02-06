@@ -13,8 +13,8 @@ const store = (media) => {
 
 const reducePage = (results, page, depth) =>{
   return page.request().then( parser => {
-    console.log(depth)
-    console.log(page.url)
+    // console.log(depth)
+    // console.log(page.url)
     let nextPage = parser.next()
     let media = parser.parse()
     let stores = store(media)
@@ -39,14 +39,14 @@ const crawl = ( depth = 10 ) =>{
   return reducePage([], page, 0)
 }
 
-const start = () => {
+export default const = () => {
   crawl().then( item => {
     let json = JSON.stringify(item, null, 2)
-    fs.writeFileSync("./foo.json", json)
-    console.log(item)
+    // fs.writeFileSync("./foo.json", json)
+    // console.log(item)
     process.exit(0)
   }).catch(e => {
     console.error(e.stack)
+    process.exit(1)
   })
 }
-start()
