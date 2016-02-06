@@ -35,7 +35,7 @@ const crawl = ( depth = 10 ) =>{
   return reducePage([], page, 0)
 }
 
-export default const = () => {
+export default function() {
   crawl().then( item => {
     process.exit(0)
   }).catch(e => {
