@@ -13,7 +13,7 @@ const store = (media) => {
 const reducePage = (results, page, depth, maxDepth) =>{
   return page.request().then( parser => {
     let nextPage = parser.next()
-    console.log(nextPage.url)
+    console.log(page.url)
     let media = parser.parse()
     let stores = store(media)
 
