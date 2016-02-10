@@ -14,7 +14,7 @@ export default class {
       let mediaRef = this.ref.child("media")
       let itemRef = mediaRef.child(data.id)
       return itemRef.once("value", (snap) => {
-        let newItem = Object.assign({}, data, snap.val())
+        let newItem = Object.assign({}, snap.val(), data)
         // console.log(itemRef.toString())
         return itemRef.set(newItem)
       })
