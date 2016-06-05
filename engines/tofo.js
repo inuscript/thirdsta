@@ -17,6 +17,7 @@ export default function(userId){
 class TofoPage{
   constructor(url){
     this.url = url
+    console.log(url)
   }  
   request(){
     let p = axios(this.url)
