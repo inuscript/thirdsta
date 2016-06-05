@@ -16,7 +16,6 @@ const reducePage = (results, page, depth, maxDepth) =>{
     console.log(page.url)
     let media = parser.parse()
     console.log(media.id, media.like)
-    
     let stores = store(media)
 
     let nextResults = results.concat(media)
