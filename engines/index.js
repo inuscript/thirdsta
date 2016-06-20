@@ -1,6 +1,7 @@
 import Storage from "../storage/firebase"
 import websta from "./websta"
 import tofo from "./tofo"
+import api from "./api"
 
 let storage = new Storage()
 
@@ -15,9 +16,8 @@ const reducePage = (results, page, depth, maxDepth) =>{
     let nextPage = parser.next()
     console.log(page.url)
     let media = parser.parse()
-    console.log(media.id, media.like)
+    // console.log(media.id, media.like)
     let stores = store(media)
-
     let nextResults = results.concat(media)
     if(nextPage && depth < maxDepth){
       return reducePage(nextResults, nextPage, depth + 1, maxDepth)
@@ -31,9 +31,10 @@ const reducePage = (results, page, depth, maxDepth) =>{
 const crawl = ( depth = 10 ) =>{
   let userName = "sqlatchdog"
   let userId = "1453092205"
-
+  let token = process.env.INSTAGRAM_API_SECRET
   // let page = websta( userName )
-  let page = tofo( userId )
+  // let page = tofo( userId )
+  let page = api( token )
   return reducePage([], page, 0, depth)
 }
 
