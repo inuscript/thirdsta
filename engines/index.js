@@ -25,7 +25,8 @@ const reducePage = (results, page, depth, maxDepth) =>{
     console.log(stores)
 
     return Promise.all(stores).then( (results) => {
-      return nextResults
+      console.log("then")
+      // return nextResults
     }).catch(e => {
       console.log(e)
     })
