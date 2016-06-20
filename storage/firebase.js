@@ -11,13 +11,22 @@ export default class {
   }
   write(data){
     return this.auth().then( (auth) => {
+      // console.log("aaa")
       let mediaRef = this.ref.child("media")
       let itemRef = mediaRef.child(data.id)
-      return itemRef.once("value", (snap) => {
+      // console.log(data.id, itemRef)
+      // console.log(data.id)
+      return itemRef.once("value").then( (snap) => {
         let newItem = Object.assign({}, snap.val(), data)
-        // console.log(itemRef.toString())
+        return newItem
+        // console.log(newItem.id)
+      }).then(newItem => {
         return itemRef.set(newItem)
+      }).then( e => {
+        console.log(e, data.id)
       })
+    }).catch(e => {
+      console.log(e)
     })
   }
   ping(){

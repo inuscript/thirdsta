@@ -14,16 +14,20 @@ const store = (media) => {
 const reducePage = (results, page, depth, maxDepth) =>{
   return page.request().then( parser => {
     let nextPage = parser.next()
-    console.log(page.url)
+    // console.log(page.url)
     let media = parser.parse()
     // console.log(media.id, media.like)
     let stores = store(media)
-    let nextResults = results.concat(media)
-    if(nextPage && depth < maxDepth){
-      return reducePage(nextResults, nextPage, depth + 1, maxDepth)
-    }
+    // let nextResults = results.concat(media)
+    // if(nextPage && depth < maxDepth){
+    //   return reducePage(nextResults, nextPage, depth + 1, maxDepth)
+    // }
+    console.log(stores)
+
     return Promise.all(stores).then( (results) => {
       return nextResults
+    }).catch(e => {
+      console.log(e)
     })
   })
 }

@@ -47,11 +47,12 @@ class ApiMedia{
   get(){
     let item = {
       id: this.item.id,
-      like: this.item.like,
-      comment: this.item.comment,
+      like: this.item.likes.count,
+      comment: this.item.comments.count,
       tags: this.item.tags,
       filter: this.item.filter
     }
+    // console.log(item)
     return item
   }
 }
